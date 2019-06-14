@@ -1,3 +1,4 @@
+/*
 package com.vaadin;
 
 import com.vaadin.security.entity.CurrentUser;
@@ -48,9 +49,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
 	
+*/
 /**
  * The password encoder to use when encrypting passwords.
- */
+ *//*
+
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -68,9 +71,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	
+*/
 /**
  * Registers our UserDetailsService and the password encoder to be used on login attempts.
- */
+ *//*
+
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -81,9 +86,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	
+*/
 /**
  * Require login to access internal pages and configure login form.
- */
+ *//*
+
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -110,9 +117,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	
+*/
 /**
  * Allows access to static resources, bypassing Spring security.
- */
+ *//*
+
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
@@ -139,4 +148,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				// (production mode) static resources
 				"/frontend-es5/**", "/frontend-es6/**");
 	}
-}
+}*/

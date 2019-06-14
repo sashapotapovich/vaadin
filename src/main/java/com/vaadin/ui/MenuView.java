@@ -1,4 +1,4 @@
-package com.vaadin.backup;
+package com.vaadin.ui;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AbstractAppRouterLayout;
@@ -9,7 +9,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
-import ui.security.SecurityUtils;
+//import com.vaadin.app.security.utils.SecurityUtils;
 
 
 @Theme(value = Lumo.class, variant = "dark")
@@ -23,17 +23,13 @@ public class MenuView extends AbstractAppRouterLayout {
     @Override
     protected void configure(AppLayout appLayout, AppLayoutMenu menu) {
 
-        if (SecurityUtils.isUserLoggedIn()) {
-            if (SecurityUtils.isAccessGranted(CreateTableView.class))
-                setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.TABLE.create(), "Create Table", CreateTableView.ID));
+        /*if (SecurityUtils.isUserLoggedIn()) {
+            if (SecurityUtils.isAccessGranted(StudentsView.class))*/
+                setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.TABLE.create(), "Students", StudentsView.ID));
             
-            setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.FILE_TABLE.create(), "View Tables", TablesView.ID));
-            
-            setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.FILE_TABLE.create(), "View Join Tables", JoinTablesView.ID));
-
             setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.ARROW_RIGHT.create(), "Logout", e ->
                     UI.getCurrent().getPage().executeJavaScript("location.assign('logout')")));
-        }
+      //  }
         getElement().addEventListener("search-focus", e -> {
             appLayout.getElement().getClassList().add("hide-navbar");
         });

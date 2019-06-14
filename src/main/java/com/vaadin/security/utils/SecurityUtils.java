@@ -1,3 +1,4 @@
+/*
 package com.vaadin.security.utils;
 
 import com.vaadin.flow.server.ServletHelper;
@@ -73,3 +74,4 @@ public final class SecurityUtils {
 	}
 
 }
+*/

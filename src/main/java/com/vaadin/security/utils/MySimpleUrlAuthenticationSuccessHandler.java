@@ -1,3 +1,4 @@
+/*
 package com.vaadin.security.utils;
 
 import java.io.IOException;
@@ -72,4 +73,4 @@ public class MySimpleUrlAuthenticationSuccessHandler extends SavedRequestAwareAu
     public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
         this.redirectStrategy = redirectStrategy;
     }
-}
+}*/

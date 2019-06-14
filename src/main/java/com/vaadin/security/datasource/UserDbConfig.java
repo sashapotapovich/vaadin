@@ -1,3 +1,4 @@
+/*
 package com.vaadin.security.datasource;
 
 import com.zaxxer.hikari.HikariConfig;
@@ -69,3 +70,4 @@ public class UserDbConfig {
         return transactionManager;
     }
 }
+*/

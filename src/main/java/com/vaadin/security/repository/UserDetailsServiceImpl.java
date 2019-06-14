@@ -1,3 +1,4 @@
+/*
 package com.vaadin.security.repository;
 
 import com.vaadin.security.entity.User;
@@ -34,3 +35,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
     }
 }
+*/

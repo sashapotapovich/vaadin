@@ -1,3 +1,4 @@
+/*
 package com.vaadin.security.utils;
 
 import com.vaadin.flow.component.UI;
@@ -7,11 +8,13 @@ import com.vaadin.flow.server.VaadinServiceInitListener;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import org.springframework.security.access.AccessDeniedException;
 
+*/
 /**
  * Adds before enter listener to check access to views.
  * Adds the Offline banner.
  * 
- */
+ *//*
+
 @SpringComponent
 public class ConfigureUIServiceInitListener implements VaadinServiceInitListener {
 
@@ -23,12 +26,14 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 		});
 	}
 
-	/**
+	*/
+/**
 	 * Reroutes the user if she is not authorized to access the view. 
 	 *
 	 * @param event
 	 *            before navigation event with event details
-	 */
+	 *//*
+
 	private void beforeEnter(BeforeEnterEvent event) {
 		final boolean accessGranted = SecurityUtils.isAccessGranted(event.getNavigationTarget());
 		if (!accessGranted) {
@@ -40,3 +45,4 @@ public class ConfigureUIServiceInitListener implements VaadinServiceInitListener
 		}
 	}
 }
+*/

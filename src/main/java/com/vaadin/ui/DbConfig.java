@@ -1,4 +1,4 @@
-package com.vaadin.app.datasource;
+package com.vaadin.ui;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "appEntityManagerFactory",
         transactionManagerRef = "appTransactionManager",
-        basePackages = { "com.vaadin.app" }
+        basePackages = { "com.vaadin" }
 )
 @ConfigurationProperties(prefix = "app.datasource")
 public class DbConfig {
@@ -56,9 +56,10 @@ public class DbConfig {
             @Qualifier("appDataSource") DataSource dataSource) {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource);
-        em.setPackagesToScan("com.vaadin.app");
+        em.setPackagesToScan("com.vaadin");
         em.setPersistenceUnitName("app");
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+        vendorAdapter.setGenerateDdl(true);
         em.setJpaVendorAdapter(vendorAdapter);
         HashMap<String, Object> properties = new HashMap<>();
         properties.put("hibernate.dialect", hibernateDialect);

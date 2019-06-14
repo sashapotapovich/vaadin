@@ -1,12 +1,11 @@
-package com.vaadin.backup;
+package com.vaadin.editor;
 
-import com.demo.app.dto.ColumnDefinition;
-import com.demo.app.entity.ColumnDefinitionsHolder;
+import com.vaadin.entity.Task;
+import com.vaadin.entity.TasksHolder;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
-import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -17,34 +16,28 @@ import javax.annotation.PostConstruct;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ui.database.DatabaseTypes;
 
 @UIScope
 @Data
 @Component
-public class TableCreationEditor extends VerticalLayout implements KeyNotifier {
+public class TaskEditor extends VerticalLayout implements KeyNotifier {
 
     private Checkbox checkbox = new Checkbox();
-    private TextField columnName = new TextField();
-    private ComboBox<DatabaseTypes> type = new ComboBox<>("Type");
-    private TextField size = new TextField("Size");
+    private TextField taskItem = new TextField();
     private Button save = new Button();
     private Button delete = new Button();
     private HorizontalLayout actions = new HorizontalLayout();
-    private HorizontalLayout fields = new HorizontalLayout(columnName, type, size);
-    private Binder<ColumnDefinition> binder = new Binder<>(ColumnDefinition.class);
-    private ColumnDefinition column;
+    private Binder<Task> binder = new Binder<>(Task.class);
+    private Task task;
     private ChangeHandler changeHandler;
     @Autowired
-    private ColumnDefinitionsHolder columnDefinitionsHolder;
+    private TasksHolder tasksHolder;
 
     @PostConstruct
     public void init() {
         actions.add(save, delete);
-        type.setItems(DatabaseTypes.values());
-        fields.setAlignItems(Alignment.BASELINE);
-        add(fields, actions);
-        columnName.setLabel("Column Name");
+        add(taskItem, actions);
+        taskItem.setLabel("To Do Item");
         binder.bindInstanceFields(this);
         setSpacing(true);
         save.setText("Save");
@@ -59,42 +52,37 @@ public class TableCreationEditor extends VerticalLayout implements KeyNotifier {
 
         save.addClickListener(e -> save());
         delete.addClickListener(e -> {
-            column.setCheckbox(true);
+            task.setCheckbox(true);
             delete();
         });
         setVisible(false);
     }
 
-    private void delete() {
-        columnDefinitionsHolder.getTasks().removeIf(task -> task.isCheckbox());
+    void delete() {
+        tasksHolder.getTasks().removeIf(task -> task.isCheckbox());
         changeHandler.onChange();
     }
 
-    private void save() {
-        ColumnDefinition taskByName = columnDefinitionsHolder.getTaskByName(columnName.getValue());
+    void save() {
+        Task taskByName = tasksHolder.getTaskByName(taskItem.getValue());
         if (taskByName == null) {
-            String dataType = type.getValue().name();
-            if (size.getValue() != null && !size.getValue().isEmpty()){
-                dataType +=  "(" + size.getValue() + ")";
-            }
-            columnDefinitionsHolder.addTask(ColumnDefinition.builder()
-                                                            .checkbox(checkbox.getValue())
-                                                            .columnName(columnName.getValue())
-                                                            .dataType(dataType)
-                                                            .build());
+            tasksHolder.addTask(Task.builder()
+                                    .checkbox(checkbox.getValue())
+                                    .taskItem(taskItem.getValue())
+                                    .build());
         }
         changeHandler.onChange();
     }
 
-    public final void editColumn(ColumnDefinition c) {
+    public final void editTask(Task c) {
         if (c == null) {
             setVisible(false);
             return;
         }
-        column = c;
-        binder.setBean(column);
+        task = c;
+        binder.setBean(task);
         setVisible(true);
-        columnName.focus();
+        taskItem.focus();
     }
 
     public void setChangeHandler(ChangeHandler h) {
