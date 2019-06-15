@@ -1,6 +1,6 @@
-package com.vaadin.security.repository;
+package com.vaadin.repository;
 
-import com.vaadin.security.entity.User;
+import com.vaadin.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmailIgnoreCase(String email);
+    
+    User findByFirstNameIgnoreCase(String firstName);
 
     Page<User> findBy(Pageable pageable);
 

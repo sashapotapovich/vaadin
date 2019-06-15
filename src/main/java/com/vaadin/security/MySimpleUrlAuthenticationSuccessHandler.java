@@ -1,6 +1,7 @@
-/*
-package com.vaadin.security.utils;
+package com.vaadin.security;
 
+import com.vaadin.ui.StudentsView;
+import com.vaadin.ui.WelcomeView;
 import java.io.IOException;
 import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
@@ -58,9 +59,9 @@ public class MySimpleUrlAuthenticationSuccessHandler extends SavedRequestAwareAu
         }
 
         if (isUser) {
-            return "login";
+            return WelcomeView.ID;
         } else if (isAdmin) {
-            return "login";
+            return StudentsView.ID;
         } else {
             throw new IllegalStateException();
         }
@@ -73,4 +74,4 @@ public class MySimpleUrlAuthenticationSuccessHandler extends SavedRequestAwareAu
     public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
         this.redirectStrategy = redirectStrategy;
     }
-}*/
+}

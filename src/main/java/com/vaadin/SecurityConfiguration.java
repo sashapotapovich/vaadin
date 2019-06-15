@@ -1,13 +1,12 @@
-/*
 package com.vaadin;
 
-import com.vaadin.security.entity.CurrentUser;
-import com.vaadin.security.entity.User;
-import com.vaadin.security.repository.UserRepository;
-import com.vaadin.security.utils.CustomRequestCache;
-import com.vaadin.security.utils.MySimpleUrlAuthenticationSuccessHandler;
-import com.vaadin.security.utils.Role;
-import com.vaadin.security.utils.SecurityUtils;
+import com.vaadin.entity.CurrentUser;
+import com.vaadin.entity.User;
+import com.vaadin.repository.UserRepository;
+import com.vaadin.security.CustomRequestCache;
+import com.vaadin.security.MySimpleUrlAuthenticationSuccessHandler;
+import com.vaadin.security.Role;
+import com.vaadin.security.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -46,16 +45,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public SecurityConfiguration(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
-
-
+    
 	
-*/
+
 /**
  * The password encoder to use when encrypting passwords.
- *//*
+ */
 
-
-	@Bean
+@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
@@ -71,10 +68,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	
-*/
+
 /**
  * Registers our UserDetailsService and the password encoder to be used on login attempts.
- *//*
+ */
 
 
 	@Override
@@ -86,10 +83,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	
-*/
+
 /**
  * Require login to access internal pages and configure login form.
- *//*
+ */
 
 
 	@Override
@@ -117,10 +114,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	
-*/
+
 /**
  * Allows access to static resources, bypassing Spring security.
- *//*
+ */
 
 
 	@Override
@@ -148,4 +145,4 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				// (production mode) static resources
 				"/frontend-es5/**", "/frontend-es6/**");
 	}
-}*/
+}

@@ -1,8 +1,7 @@
-/*
-package com.vaadin.security.datasource;
+package com.vaadin.service;
 
-import com.vaadin.security.entity.User;
-import com.vaadin.security.repository.UserRepository;
+import com.vaadin.entity.User;
+import com.vaadin.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -13,12 +12,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class InsertUsers {
 
-    @Bean
-    public CommandLineRunner commandLineRunner(UserRepository userRepository, PasswordEncoder passwordEncoder){
+    @Bean(name = "UserCreation")
+    public CommandLineRunner commandLineRunner(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return args -> {
             User admin = userRepository.findByEmailIgnoreCase("admin@admin.com");
             User user = userRepository.findByEmailIgnoreCase("user@user.com");
-            if (admin == null){
+            if (admin == null) {
                 log.info("Preloading " + userRepository.save(new User("admin@admin.com", passwordEncoder.encode("password"),
                                                                       "admin", "admin", "ROLE_ADMIN", false)));
             } else {
@@ -32,6 +31,5 @@ public class InsertUsers {
             }
         };
     }
-    
+
 }
-*/

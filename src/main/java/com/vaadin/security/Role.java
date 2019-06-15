@@ -1,4 +1,4 @@
-package com.vaadin.security.utils;
+package com.vaadin.security;
 
 public class Role {
 

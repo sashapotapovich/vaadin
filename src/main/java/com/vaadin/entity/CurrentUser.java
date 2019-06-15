@@ -1,4 +1,4 @@
-package com.vaadin.security.entity;
+package com.vaadin.entity;
 
 @FunctionalInterface
 public interface CurrentUser {

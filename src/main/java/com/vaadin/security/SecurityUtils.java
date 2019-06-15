@@ -1,8 +1,8 @@
-/*
-package com.vaadin.security.utils;
+package com.vaadin.security;
 
 import com.vaadin.flow.server.ServletHelper;
 import com.vaadin.flow.shared.ApplicationConstants;
+import com.vaadin.ui.WelcomeView;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
@@ -35,8 +35,8 @@ public final class SecurityUtils {
 
 
 	public static boolean isAccessGranted(Class<?> securedClass) {
-		final boolean publicView = true;
-				//WelcomeView.class.equals(securedClass) || TablesView.class.equals(securedClass);
+		final boolean publicView = WelcomeView.class.equals(securedClass);
+		
 		// Always allow access to public views
 		if (publicView) {
 			return true;
@@ -74,4 +74,3 @@ public final class SecurityUtils {
 	}
 
 }
-*/

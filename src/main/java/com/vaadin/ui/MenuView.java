@@ -9,7 +9,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
-//import com.vaadin.app.security.utils.SecurityUtils;
+import com.vaadin.security.SecurityUtils;
 
 
 @Theme(value = Lumo.class, variant = "dark")
@@ -23,25 +23,27 @@ public class MenuView extends AbstractAppRouterLayout {
     @Override
     protected void configure(AppLayout appLayout, AppLayoutMenu menu) {
 
-        /*if (SecurityUtils.isUserLoggedIn()) {
-            if (SecurityUtils.isAccessGranted(StudentsView.class))*/
+        if (SecurityUtils.isUserLoggedIn()) {
+            if (SecurityUtils.isAccessGranted(StudentsView.class)) {
                 setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.TABLE.create(), "Students", StudentsView.ID));
+                setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.GROUP.create(), "Groups", GroupView.ID));
+            }
             
             setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.ARROW_RIGHT.create(), "Logout", e ->
                     UI.getCurrent().getPage().executeJavaScript("location.assign('logout')")));
-      //  }
-        getElement().addEventListener("search-focus", e -> {
-            appLayout.getElement().getClassList().add("hide-navbar");
-        });
+            
+            getElement().addEventListener("search-focus", e -> {
+                appLayout.getElement().getClassList().add("hide-navbar");
+            });
 
-        getElement().addEventListener("search-blur", e -> {
-            appLayout.getElement().getClassList().remove("hide-navbar");
-        });
+            getElement().addEventListener("search-blur", e -> {
+                appLayout.getElement().getClassList().remove("hide-navbar");
+            });
+        }
     }
 
     private void setMenuItem(AppLayoutMenu menu, AppLayoutMenuItem menuItem) {
         menuItem.getElement().setAttribute("theme", "icon-on-top");
         menu.addMenuItem(menuItem);
     }
-
 }

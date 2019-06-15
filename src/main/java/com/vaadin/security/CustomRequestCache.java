@@ -1,17 +1,16 @@
-/*
-package com.vaadin.security.utils;
+package com.vaadin.security;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 
-*/
+
 /**
  * HttpSessionRequestCache that avoids saving internal framework requests.
- *//*
+ */
 
 public class CustomRequestCache extends HttpSessionRequestCache {
-	*/
+	
 /**
 	 * {@inheritDoc}
 	 *
@@ -19,7 +18,7 @@ public class CustomRequestCache extends HttpSessionRequestCache {
 	 * saving it.
 	 * 
 	 * @see SecurityUtils#isFrameworkInternalRequest(HttpServletRequest)
-	 *//*
+	 */
 
 	@Override
 	public void saveRequest(HttpServletRequest request, HttpServletResponse response) {
@@ -28,4 +27,4 @@ public class CustomRequestCache extends HttpSessionRequestCache {
 		}
 	}
 
-}*/
+}

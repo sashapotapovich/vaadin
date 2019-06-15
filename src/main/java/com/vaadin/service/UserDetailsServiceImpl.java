@@ -1,7 +1,7 @@
-/*
-package com.vaadin.security.repository;
+package com.vaadin.service;
 
-import com.vaadin.security.entity.User;
+import com.vaadin.entity.User;
+import com.vaadin.repository.UserRepository;
 import java.util.Collections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmailIgnoreCase(username);
+        User user = userRepository.findByFirstNameIgnoreCase(username);
         if (null == user) {
             throw new UsernameNotFoundException("No user present with username: " + username);
         } else {
@@ -35,4 +35,4 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }
     }
 }
-*/
+

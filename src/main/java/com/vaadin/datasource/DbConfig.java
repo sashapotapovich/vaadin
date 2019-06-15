@@ -1,4 +1,4 @@
-package com.vaadin.ui;
+package com.vaadin.datasource;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -6,6 +6,8 @@ import java.util.HashMap;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +21,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@Data
+@Getter
+@Setter
 @EnableTransactionManagement
 @EnableJpaRepositories(
         entityManagerFactoryRef = "appEntityManagerFactory",
@@ -60,6 +63,7 @@ public class DbConfig {
         em.setPersistenceUnitName("app");
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(true);
+        vendorAdapter.setShowSql(true);
         em.setJpaVendorAdapter(vendorAdapter);
         HashMap<String, Object> properties = new HashMap<>();
         properties.put("hibernate.dialect", hibernateDialect);
