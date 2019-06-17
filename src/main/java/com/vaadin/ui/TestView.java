@@ -37,7 +37,6 @@ import lombok.extern.slf4j.Slf4j;
 @Route(value = "testExecution", layout = MenuView.class)
 public class TestView extends VerticalLayout implements RouterLayout {
     public static final String ID = "testExecution";
-
     private StudentRepository studentRepository;
     private AssignedTestCaseRepository assignedTestCaseRepository;
     private CurrentUser currentUser;
@@ -55,14 +54,12 @@ public class TestView extends VerticalLayout implements RouterLayout {
     private VerticalLayout dialogLayout = new VerticalLayout(finishText, passRateMessage, actions);
     private Dialog dialog = new Dialog(dialogLayout);
     private static TestCase current;
-
     public TestView(AssignedTestCaseRepository assignedTestCaseRepository,
                     StudentRepository studentRepository, CurrentUser currentUser) {
         this.assignedTestCaseRepository = assignedTestCaseRepository;
         this.studentRepository = studentRepository;
         this.currentUser = currentUser;
     }
-
     @PostConstruct
     public void init() {
         closeDialog.addClickListener((listener) -> {
@@ -74,7 +71,7 @@ public class TestView extends VerticalLayout implements RouterLayout {
         finish.addClickListener(listener -> {
             mark  = BigDecimal.valueOf(0);
             allAnswers.forEach(testModuleDecorator -> {
-                Optional<Answer> first = testModuleDecorator.getAnswerDecoratorList().stream().filter(answer -> answer.getIsCorrect()).findFirst();
+                Optional<Answer> first = testModuleDecorator.getAnswerDecoratorList().stream().filter(Answer::getIsCorrect).findFirst();
                 if (testModuleDecorator.getRadioButtonGroup().getValue().equals(first.get().getText())){
                     mark = mark.add(BigDecimal.valueOf(1));
                 }

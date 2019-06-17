@@ -48,7 +48,6 @@ public class TestCaseEditorView extends Dialog implements RouterLayout {
         HorizontalLayout horizontalLayout = new HorizontalLayout(shortDecription, passRate);
         horizontalLayout.setVerticalComponentAlignment(FlexComponent.Alignment.END, passRate);
         layout.add(horizontalLayout);
-        //add();
         questions.forEach(layout::add);
         layout.add(actions);
         addQuestion.addClickListener(listener -> {

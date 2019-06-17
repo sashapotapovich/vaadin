@@ -11,5 +11,7 @@ public interface AssignedTestCaseRepository extends JpaRepository<AssignedTestCa
     
     List<AssignedTestCase> findAllByStudent(Student student);
     
+    List<AssignedTestCase> findAllByTestCase(TestCase testCase);
+    
     Optional<AssignedTestCase> findByStudentAndTestCase(Student student, TestCase testCase);
 }

@@ -22,7 +22,6 @@ import org.springframework.security.access.annotation.Secured;
 @Route(value = "students", layout = MenuView.class)
 @Secured("ROLE_ADMIN")
 public class StudentsView extends VerticalLayout implements RouterLayout {
-
     public static final String ID = "students";
     private static TextField groupFilter = new TextField("Group Filter", "");
     private StudentRepository studentRepository;
@@ -58,7 +57,6 @@ public class StudentsView extends VerticalLayout implements RouterLayout {
         add(filters, grid);
         grid.setItems(studentRepository.findAll());
     }
-
 
     public static void setFilter(String filter) {
         groupFilter.setValue(filter);

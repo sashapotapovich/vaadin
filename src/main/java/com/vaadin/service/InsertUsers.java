@@ -1,3 +1,4 @@
+/*
 package com.vaadin.service;
 
 import com.vaadin.entity.User;
@@ -33,3 +34,4 @@ public class InsertUsers {
     }
 
 }
+*/
