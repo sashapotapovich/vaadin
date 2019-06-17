@@ -1,11 +1,11 @@
 package com.vaadin.entity;
 
-import java.util.Map;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import lombok.Getter;
@@ -19,18 +19,25 @@ public class TestCase {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
+    @NotBlank
+    @Size(max = 255)
+    private String shortDescription;
 
+    @Min(0)
+    @Max(100)
+    private Integer passRate;
+    
     @NotBlank
     @Size(max = 3000)
     private String questions;
 
-    @Convert(converter = HashMapConverter.class)
-    private Map<String, Object> customerAttributes;
-
     public TestCase() {
     }
 
-    public TestCase(String questions) {
+    public TestCase(String shortDescription, Integer passRate, String questions) {
+        this.shortDescription = shortDescription;
+        this.passRate = passRate;
         this.questions = questions;
     }
 

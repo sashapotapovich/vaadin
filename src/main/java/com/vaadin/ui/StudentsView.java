@@ -25,11 +25,8 @@ public class StudentsView extends VerticalLayout implements RouterLayout {
     public static final String ID = "students";
     private static TextField groupFilter = new TextField("Group Filter", "");
     private StudentRepository studentRepository;
-    private TextField firstNameFilter = new TextField("First Name Filter", "");
-    private TextField lastNameFilter = new TextField("Last Name Filter", "");
-    private Button clearFilters = new Button("Clear Filters");
-    private HorizontalLayout filters = new HorizontalLayout(firstNameFilter, lastNameFilter, groupFilter, clearFilters);
-    private VerticalLayout verticalLayout = new VerticalLayout(filters);
+    private Button clearFilters = new Button("Show All Students");
+    private HorizontalLayout filters = new HorizontalLayout(clearFilters);
     private Grid<Student> grid;
 
     public StudentsView(StudentRepository repository) {
@@ -38,41 +35,28 @@ public class StudentsView extends VerticalLayout implements RouterLayout {
 
     @PostConstruct
     public void init() {
-        initFilterListeners();
+        groupFilter.addValueChangeListener(listener -> {
+            if (!groupFilter.getValue().isEmpty()){
+                clearFilters.setVisible(true);
+            }
+            grid.setItems(studentRepository.findAllByStudentsGroup_GroupNameLike(groupFilter.getValue()));
+        });
         filters.setAlignItems(Alignment.BASELINE);
+        clearFilters.setVisible(false);
         clearFilters.addClickListener(action -> {
-            firstNameFilter.setValue("");
-            lastNameFilter.setValue("");
             groupFilter.setValue("");
             grid.setItems(studentRepository.findAll());
+            clearFilters.setVisible(false);
         });
         grid = new Grid<>(Student.class, false);
         grid.addColumn(Student::getId).setHeader("ID").setFlexGrow(0);
         grid.addColumn(Student::getFirstName).setHeader("First Name");
         grid.addColumn(Student::getLastName).setHeader("Last Name");
         grid.addColumn(student -> student.getStudentsGroup().getGroupName()).setHeader("Group");
-        add(verticalLayout, grid);
+        add(filters, grid);
         grid.setItems(studentRepository.findAll());
     }
-
-    public void initFilterListeners() {
-        firstNameFilter.addValueChangeListener(listener -> {
-            lastNameFilter.setValue("");
-            groupFilter.setValue("");
-            grid.setItems(studentRepository.findAllByFirstNameContainsOrFirstNameContains(firstNameFilter.getValue().toLowerCase()
-                    , firstNameFilter.getValue().toUpperCase()));
-        });
-        lastNameFilter.addValueChangeListener(listener -> {
-            firstNameFilter.setValue("");
-            groupFilter.setValue("");
-            grid.setItems(studentRepository.findAllByLastNameContains(lastNameFilter.getValue()));
-        });
-        groupFilter.addValueChangeListener(listener -> {
-            firstNameFilter.setValue("");
-            lastNameFilter.setValue("");
-            grid.setItems(studentRepository.findAllByStudentsGroup_GroupNameLike(groupFilter.getValue()));
-        });
-    }
+    
 
     public static void setFilter(String filter) {
         groupFilter.setValue(filter);

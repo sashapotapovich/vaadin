@@ -27,6 +27,13 @@ public class MenuView extends AbstractAppRouterLayout {
             if (SecurityUtils.isAccessGranted(StudentsView.class)) {
                 setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.TABLE.create(), "Students", StudentsView.ID));
                 setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.GROUP.create(), "Groups", GroupView.ID));
+                setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.ACADEMY_CAP.create(), "Tests", TestDetailsView.ID));
+            }
+
+            //setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.ACADEMY_CAP.create(), "Test", TestView.ID));
+            
+            if (SecurityUtils.getAuthorities().contains("ROLE_USER")){
+                setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.ACADEMY_CAP.create(), "Tests", AssignedTestCases.ID));
             }
             
             setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.ARROW_RIGHT.create(), "Logout", e ->

@@ -2,8 +2,6 @@ package com.vaadin.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,18 +14,12 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TestModule {
-
-    @JsonProperty("question")
-    private String question;
-
-    @JsonProperty("answers")
-    private List<Answer> answers;
-
-    public List<String> getTextForAnswers() {
-        List<String> text = new ArrayList<>();
-        answers.forEach(x -> text.add(x.getText()));
-        return text;
-    }
-
+public class Answer {
+    
+    @JsonProperty("text")
+    private String text;
+    
+    @JsonProperty("isCorrect")
+    private Boolean isCorrect;
+    
 }

@@ -5,6 +5,7 @@ import com.vaadin.flow.shared.ApplicationConstants;
 import com.vaadin.ui.WelcomeView;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.core.annotation.AnnotationUtils;
@@ -33,7 +34,11 @@ public final class SecurityUtils {
 		return null;
 	}
 
-
+	public static List<String> getAuthorities(){
+		Authentication userAuthentication = SecurityContextHolder.getContext().getAuthentication();
+		return userAuthentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+	}
+	
 	public static boolean isAccessGranted(Class<?> securedClass) {
 		final boolean publicView = WelcomeView.class.equals(securedClass);
 		

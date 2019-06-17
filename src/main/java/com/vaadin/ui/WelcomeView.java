@@ -31,7 +31,7 @@ public class WelcomeView extends VerticalLayout implements RouterLayout {
     @PostConstruct
     public void init(){
         verticalLayout = new VerticalLayout();
-        h2 = new H2("Welcome back" + currentUser.getUser().getFirstName() + " " + currentUser.getUser().getLastName() + "!");
+        h2 = new H2("Welcome back " + currentUser.getUser().getFirstName() + " " + currentUser.getUser().getLastName() + "!");
         verticalLayout.add(h2);
         verticalLayout.setAlignItems(Alignment.CENTER);
         add(verticalLayout);
