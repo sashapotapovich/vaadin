@@ -1,12 +1,13 @@
 package com.vaadin.ui;
 
 import com.google.gson.Gson;
-import com.vaadin.entity.Answer;
+import com.vaadin.dto.Answer;
 import com.vaadin.entity.AssignedTestCase;
 import com.vaadin.entity.CurrentUser;
 import com.vaadin.entity.Student;
 import com.vaadin.entity.TestCase;
-import com.vaadin.entity.TestModule;
+import com.vaadin.dto.TestModule;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.H2;
@@ -20,7 +21,6 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import com.vaadin.repository.AssignedTestCaseRepository;
 import com.vaadin.repository.StudentRepository;
-import com.vaadin.repository.TestCaseRepository;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -38,12 +38,13 @@ import lombok.extern.slf4j.Slf4j;
 public class TestView extends VerticalLayout implements RouterLayout {
     public static final String ID = "testExecution";
 
-    private TestCaseRepository testCaseRepository;
     private StudentRepository studentRepository;
     private AssignedTestCaseRepository assignedTestCaseRepository;
     private CurrentUser currentUser;
     private List<TestModuleDecorator> allAnswers = new ArrayList<>();
     private Button finish = new Button("Finish Test Execution", VaadinIcon.DIPLOMA.create());
+    private Button returnButton = new Button("Return to All Tests", VaadinIcon.BACKSPACE.create());
+    private HorizontalLayout buttons = new HorizontalLayout(finish, returnButton);
     private BigDecimal mark;
     private Label finishText = new Label();
     private Integer passRate;
@@ -55,9 +56,8 @@ public class TestView extends VerticalLayout implements RouterLayout {
     private Dialog dialog = new Dialog(dialogLayout);
     private static TestCase current;
 
-    public TestView(TestCaseRepository testCaseRepository, AssignedTestCaseRepository assignedTestCaseRepository,
+    public TestView(AssignedTestCaseRepository assignedTestCaseRepository,
                     StudentRepository studentRepository, CurrentUser currentUser) {
-        this.testCaseRepository = testCaseRepository;
         this.assignedTestCaseRepository = assignedTestCaseRepository;
         this.studentRepository = studentRepository;
         this.currentUser = currentUser;
@@ -65,7 +65,11 @@ public class TestView extends VerticalLayout implements RouterLayout {
 
     @PostConstruct
     public void init() {
-        closeDialog.addClickListener((listener) -> dialog.close());
+        closeDialog.addClickListener((listener) -> {
+            dialog.close();
+            UI.getCurrent().navigate(AssignedTestCasesView.class);
+        });
+        returnButton.addClickListener(x -> UI.getCurrent().navigate(AssignedTestCasesView.class));
         saveResults.setEnabled(false);
         finish.addClickListener(listener -> {
             mark  = BigDecimal.valueOf(0);
@@ -86,12 +90,12 @@ public class TestView extends VerticalLayout implements RouterLayout {
         saveResults.addClickListener(listener -> {
             Student currentStudent = studentRepository.findByFirstNameLikeAndLastNameLike(currentUser.getUser().getFirstName(),
                                                                                                           currentUser.getUser().getLastName());
-            AssignedTestCase assignedTestCase = new AssignedTestCase(currentStudent, current, true);
-            assignedTestCaseRepository.saveAndFlush(assignedTestCase);
+            Optional<AssignedTestCase> byStudentAndTestCase = assignedTestCaseRepository.findByStudentAndTestCase(currentStudent, current);
+            byStudentAndTestCase.get().setPassed(true);
+            assignedTestCaseRepository.saveAndFlush(byStudentAndTestCase.get());
             dialog.close();
+            UI.getCurrent().navigate(AssignedTestCasesView.class);
         });
-        //List<TestCase> all = testCaseRepository.findAll();
-        //current = all.get(0);
         String questions = current.getQuestions();
         passRate = current.getPassRate();
         passRateMessage.setText("Pass Rate - " + passRate + "%");
@@ -107,7 +111,7 @@ public class TestView extends VerticalLayout implements RouterLayout {
         });
         layout.setAlignItems(Alignment.BASELINE);
         layout.setSizeFull();
-        add(layout, finish);
+        add(layout, buttons);
     }
     
     public static void setCurrent(TestCase testCase){

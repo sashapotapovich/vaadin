@@ -63,7 +63,6 @@ public class DbConfig {
         em.setPersistenceUnitName("app");
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         vendorAdapter.setGenerateDdl(true);
-        vendorAdapter.setShowSql(true);
         em.setJpaVendorAdapter(vendorAdapter);
         HashMap<String, Object> properties = new HashMap<>();
         properties.put("hibernate.dialect", hibernateDialect);

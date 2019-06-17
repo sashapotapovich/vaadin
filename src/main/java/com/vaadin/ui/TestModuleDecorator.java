@@ -1,6 +1,6 @@
 package com.vaadin.ui;
 
-import com.vaadin.entity.Answer;
+import com.vaadin.dto.Answer;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.radiobutton.RadioButtonGroup;

@@ -29,7 +29,7 @@ public class TestCase {
     private Integer passRate;
     
     @NotBlank
-    @Size(max = 3000)
+    @Size(max = 30000)
     private String questions;
 
     public TestCase() {

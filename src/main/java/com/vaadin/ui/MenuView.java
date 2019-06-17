@@ -15,34 +15,25 @@ import com.vaadin.security.SecurityUtils;
 @Theme(value = Lumo.class, variant = "dark")
 @PWA(name = "App", shortName = "Hi there")
 public class MenuView extends AbstractAppRouterLayout {
-
-
     public MenuView() {
     }
-
+    
     @Override
     protected void configure(AppLayout appLayout, AppLayoutMenu menu) {
-
         if (SecurityUtils.isUserLoggedIn()) {
             if (SecurityUtils.isAccessGranted(StudentsView.class)) {
                 setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.TABLE.create(), "Students", StudentsView.ID));
                 setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.GROUP.create(), "Groups", GroupView.ID));
                 setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.ACADEMY_CAP.create(), "Tests", TestDetailsView.ID));
             }
-
-            //setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.ACADEMY_CAP.create(), "Test", TestView.ID));
-            
             if (SecurityUtils.getAuthorities().contains("ROLE_USER")){
-                setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.ACADEMY_CAP.create(), "Tests", AssignedTestCases.ID));
+                setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.ACADEMY_CAP.create(), "Tests", AssignedTestCasesView.ID));
             }
-            
             setMenuItem(menu, new AppLayoutMenuItem(VaadinIcon.ARROW_RIGHT.create(), "Logout", e ->
                     UI.getCurrent().getPage().executeJavaScript("location.assign('logout')")));
-            
             getElement().addEventListener("search-focus", e -> {
                 appLayout.getElement().getClassList().add("hide-navbar");
             });
-
             getElement().addEventListener("search-blur", e -> {
                 appLayout.getElement().getClassList().remove("hide-navbar");
             });

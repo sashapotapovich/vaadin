@@ -1,17 +1,15 @@
 package com.vaadin.ui.editor;
 
 import com.google.gson.Gson;
-import com.vaadin.entity.Answer;
+import com.vaadin.dto.Answer;
 import com.vaadin.entity.TestCase;
-import com.vaadin.entity.TestModule;
+import com.vaadin.dto.TestModule;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLayout;
@@ -64,6 +62,7 @@ public class TestCaseEditorView extends Dialog implements RouterLayout {
             newTest.setShortDescription(shortDecription.getValue());
             newTest.setPassRate(Integer.valueOf(passRate.getValue()));
             StringBuilder sb = new StringBuilder();
+            sb.append("[");
             questions.forEach(testModuleEditor -> {
                 TestModule testModule = new TestModule();
                 testModule.setQuestion(testModuleEditor.getQuestion().getValue());
@@ -74,9 +73,9 @@ public class TestCaseEditorView extends Dialog implements RouterLayout {
                         new Answer(testModuleEditor.getAnswer4().getValue(), testModuleEditor.getCheckbox4().getValue())
                 ));
                 String jsonModule = new Gson().toJson(testModule, TestModule.class);
-                sb.append(jsonModule);
+                sb.append(jsonModule).append(",");
             });
-            log.error(sb.toString());
+            sb.append("]");
             newTest.setQuestions(sb.toString());
             testCaseRepository.saveAndFlush(newTest);
             this.close();

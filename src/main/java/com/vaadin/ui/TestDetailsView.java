@@ -38,9 +38,9 @@ public class TestDetailsView extends VerticalLayout implements RouterLayout {
     @PostConstruct
     public void init() {
         allTests = testCaseRepository.findAll();
-        grid.addColumn(TestCase::getId).setHeader("ID").setFlexGrow(0);
-        grid.addColumn(TestCase::getShortDescription).setHeader("Description");
-        grid.addColumn(TestCase::getPassRate).setHeader("Pass Rate");
+        grid.addColumn(TestCase::getId).setHeader("ID").setFlexGrow(0).setSortable(true);
+        grid.addColumn(TestCase::getShortDescription).setHeader("Description").setSortable(true);
+        grid.addColumn(TestCase::getPassRate).setHeader("Pass Rate").setSortable(true);
         grid.setItems(allTests);
         addNewTest.addClickListener(listener -> {
             testCaseEditorView.open();

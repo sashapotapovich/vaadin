@@ -1,17 +1,15 @@
+/*
 package com.vaadin.service;
 
-import com.google.gson.Gson;
-import com.vaadin.entity.Answer;
 import com.vaadin.entity.Student;
 import com.vaadin.entity.StudentsGroup;
-import com.vaadin.entity.TestCase;
-import com.vaadin.entity.TestModule;
 import com.vaadin.repository.StudentGroupRepository;
 import com.vaadin.repository.StudentRepository;
 import com.vaadin.repository.TestCaseRepository;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -37,7 +35,8 @@ public class DataGenerator {
                 Student student4 = new Student("Wer", "Wer", studentsGroup2);
                 studentRepository.saveAll(Arrays.asList(student1, student2, student3, student4));
             }
-            /*TestModule testModule1 = new TestModule("New Test Case 1 Question \"Short Description\"",
+            */
+/*TestModule testModule1 = new TestModule("New Test Case 1 Question \"Short Description\"",
                                                     Arrays.asList(new Answer("ssss", false),
                                                                          new Answer("dddd", true),
                                                                          new Answer("gggg", false),
@@ -66,7 +65,9 @@ public class DataGenerator {
             String s = gson.toJson(tests.toArray(new TestModule[0]), TestModule[].class);
             log.error(s);
             TestCase testCase = new TestCase("Simple test for students", 65, s);
-            testCaseRepository.saveAndFlush(testCase);*/
+            testCaseRepository.saveAndFlush(testCase);*//*
+
         };
     }
 }
+*/

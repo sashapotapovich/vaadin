@@ -6,12 +6,18 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity(name = "assignedtests")
+@Table(
+        name = "assignedtests",
+        uniqueConstraints = {@UniqueConstraint(columnNames = { "student_id", "testCase_id"})}
+)
 public class AssignedTestCase {
 
     @Id

@@ -22,6 +22,7 @@ import com.vaadin.repository.StudentGroupRepository;
 import com.vaadin.repository.StudentRepository;
 import com.vaadin.repository.TestCaseRepository;
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 
@@ -51,8 +52,8 @@ public class GroupView extends VerticalLayout implements RouterLayout {
     @PostConstruct
     public void init() {
         grid = new Grid<>(StudentsGroup.class, false);
-        grid.addColumn(StudentsGroup::getId).setHeader("ID").setFlexGrow(0);
-        grid.addColumn(StudentsGroup::getGroupName).setHeader("Group Name");
+        grid.addColumn(StudentsGroup::getId).setHeader("ID").setFlexGrow(0).setSortable(true);
+        grid.addColumn(StudentsGroup::getGroupName).setHeader("Group Name").setSortable(true);
         add(grid);
         grid.addItemClickListener(listener -> {
             Dialog dialog = new Dialog();
@@ -72,7 +73,7 @@ public class GroupView extends VerticalLayout implements RouterLayout {
                 Button assign = new Button("Assign");
                 dialog1.add(layout, assign);
                 List<TestCase> all = testCaseRepository.findAll();
-                comboBox.setItems(all.stream().map(testCase -> testCase.getId().toString()));
+                comboBox.setItems(all.stream().map(testCase -> testCase.getId().toString()).sorted());
                 comboBox.addValueChangeListener(action -> {
                     TestCase chosenTest = testCaseRepository.findById(Long.valueOf(comboBox.getValue())).get();
                     label.setText(chosenTest.getShortDescription());
@@ -81,7 +82,10 @@ public class GroupView extends VerticalLayout implements RouterLayout {
                     List<Student> studentsToassignTest = studentRepository.findAllByStudentsGroup_GroupNameLike(groupName.getText());
                     studentsToassignTest.forEach(student -> {
                         TestCase byIdLike = testCaseRepository.findById(Long.valueOf(comboBox.getValue())).get();
-                        assignedTestCaseRepository.saveAndFlush(new AssignedTestCase(student, byIdLike, false));
+                        Optional<AssignedTestCase> byStudentAndTestCase = assignedTestCaseRepository.findByStudentAndTestCase(student, byIdLike);
+                        if (!byStudentAndTestCase.isPresent() || byStudentAndTestCase.get().getPassed()) {
+                            assignedTestCaseRepository.saveAndFlush(new AssignedTestCase(student, byIdLike, false));
+                        }
                         dialog1.close();
                     });
                 });

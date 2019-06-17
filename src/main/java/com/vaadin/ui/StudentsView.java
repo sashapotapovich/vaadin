@@ -11,6 +11,7 @@ import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import com.vaadin.repository.StudentRepository;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
@@ -36,10 +37,11 @@ public class StudentsView extends VerticalLayout implements RouterLayout {
     @PostConstruct
     public void init() {
         groupFilter.addValueChangeListener(listener -> {
-            if (!groupFilter.getValue().isEmpty()){
+            if (!groupFilter.getValue().isEmpty()) {
                 clearFilters.setVisible(true);
             }
-            grid.setItems(studentRepository.findAllByStudentsGroup_GroupNameLike(groupFilter.getValue()));
+            List<Student> students = studentRepository.findAllByStudentsGroup_GroupNameLike(groupFilter.getValue());
+            grid.setItems(students);
         });
         filters.setAlignItems(Alignment.BASELINE);
         clearFilters.setVisible(false);
@@ -49,14 +51,14 @@ public class StudentsView extends VerticalLayout implements RouterLayout {
             clearFilters.setVisible(false);
         });
         grid = new Grid<>(Student.class, false);
-        grid.addColumn(Student::getId).setHeader("ID").setFlexGrow(0);
-        grid.addColumn(Student::getFirstName).setHeader("First Name");
-        grid.addColumn(Student::getLastName).setHeader("Last Name");
-        grid.addColumn(student -> student.getStudentsGroup().getGroupName()).setHeader("Group");
+        grid.addColumn(Student::getId).setHeader("ID").setFlexGrow(0).setSortable(true);
+        grid.addColumn(Student::getFirstName).setHeader("First Name").setSortable(true);
+        grid.addColumn(Student::getLastName).setHeader("Last Name").setSortable(true);
+        grid.addColumn(student -> student.getStudentsGroup().getGroupName()).setHeader("Group").setSortable(true);
         add(filters, grid);
         grid.setItems(studentRepository.findAll());
     }
-    
+
 
     public static void setFilter(String filter) {
         groupFilter.setValue(filter);
